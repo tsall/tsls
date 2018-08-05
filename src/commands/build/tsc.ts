@@ -1,4 +1,4 @@
-import {exec, pipeOutput, closeWithErrorWhenStatusCode} from '../../utils/rx-exec';
+import { exec, pipeOutput, closeWithErrorWhenStatusCode } from '../../utils/rx-exec';
 import { tap, switchMap, first } from 'rxjs/operators';
 
 // TODO: try to require ts instead of calling a command line wrapper
