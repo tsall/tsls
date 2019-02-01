@@ -8,6 +8,7 @@ const commonjs = require('rollup-plugin-commonjs');
 const sourceMaps = require('rollup-plugin-sourcemaps');
 const camelCase = require('lodash.camelcase');
 const json = require('rollup-plugin-json');
+const removeExternal = require('rollup-plugin-auto-external');
 
 const project = process.cwd();
 
@@ -20,24 +21,26 @@ async function buildRollupP (options: IRollupOptions) {
     const inputOptions = {
         input: `src/${options.libraryName}.ts`,
         // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
-        external: [],
+        // external: [],
+
         // watch: {
         //   include: 'src/**',
         // },
         plugins: [
-        // Allow json resolution
-        json(),
-        // Compile TypeScript files
-        typescript({ useTsconfigDeclarationDir: false }),
-        // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
-        commonjs(),
-        // Allow node_modules resolution, so you can use 'external' to control
-        // which external modules to include in the bundle
-        // https://github.com/rollup/rollup-plugin-node-resolve#usage
-        resolve(),
+            removeExternal(),
+            // Allow json resolution
+            json(),
+            // Compile TypeScript files
+            typescript({ useTsconfigDeclarationDir: false }),
+            // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
+            commonjs(),
+            // Allow node_modules resolution, so you can use 'external' to control
+            // which external modules to include in the bundle
+            // https://github.com/rollup/rollup-plugin-node-resolve#usage
+            resolve(),
 
-        // Resolve source maps to the original source
-        sourceMaps(),
+            // Resolve source maps to the original source
+            sourceMaps(),
         ],
     } as RollupFileOptions;
 
